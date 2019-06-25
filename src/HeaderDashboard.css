@@ -1,0 +1,15 @@
+.appName{
+    margin-left: 40px;
+}
+
+.appLogo{
+    background-image: url(./images/logo.png);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: -0px -0px;
+    position: absolute;
+    z-index: 2;
+    height: 30px;
+    width: 40px;
+    padding-bottom: 30px;
+}

@@ -1,0 +1,12 @@
+.HomepageMessage{
+    width: 400px;
+    height: 400px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    top: 50%;
+    left: 53%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+    padding: 30px 20px;
+}

@@ -1,0 +1,42 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: url("../src/images/Login Form Background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: sans-serif; 
+}
+.login-form {
+    width: 400px;
+    height: 400px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+    padding: 30px 20px;
+}
+
+.ui.stacked.segment {       
+    background: transparent;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+    border: 0px;
+}
+
+.ui.stacked.segment::after{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    background: transparent;
+}
+
+.catchError{
+    margin-top: 15px;
+    color: #db2828;
+}
