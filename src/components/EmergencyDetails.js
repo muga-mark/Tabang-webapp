@@ -115,10 +115,10 @@ class EmergencyDetails extends Component{
                 console.log('isRespondingResponderShown',respondingResponderShown);
 
                 if(respondingResponder === true && respondingResponderShown === false){
-                    var a = <div>
-                                {/* <p>Incident Type: {this.props.incidentType}</p> */}
-                                <p><b>Incident Location:</b> {this.props.incidentLocation}</p>
-                                <p>Responder <b>{this.props.originalResponderName}</b> has accepted this incident.</p>
+                    var a = <div style={{fontSize:'12px'}}>
+                                <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                                <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
+                                Responder <b>{this.props.originalResponderName}</b> has accepted this incident. <br />
                             </div>; 
             
                     NotificationManager.success(a,'', 20000);
@@ -155,9 +155,9 @@ class EmergencyDetails extends Component{
                 console.log('isRespondingVolunteerShown',respondingVolunteerShown);
 
                 if(respondingVolunteer === true && respondingVolunteerShown === false){
-                    var a = <div>
-                                {/* <p>Incident Type: {this.props.incidentType}</p> */}
-                                <p><b>Incident Location:</b> {this.props.incidentLocation}</p>
+                    var a = <div style={{fontSize:'12px'}}>
+                                <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                                <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
                                 <p>Volunteer <b>{this.props.originalVolunteerName}</b> has accepted this incident.</p>
                             </div>; 
                     
@@ -195,9 +195,9 @@ class EmergencyDetails extends Component{
                 console.log('isRespondingVolunteerShown',ArrivedResponderShown);
 
                 if(ArrivedResponder === true && ArrivedResponderShown === false){
-                    var a = <div>
-                                {/* <p>Incident Type: {this.props.incidentType}</p> */}
-                                <p><b>Incident Location:</b> {this.props.incidentLocation}</p>
+                    var a = <div style={{fontSize:'12px'}}>
+                                <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                                <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
                                 <p>Responder <b>{this.props.originalResponderName}</b> has arrrived at the incident.</p>
                             </div>; 
                     
@@ -235,9 +235,9 @@ class EmergencyDetails extends Component{
                 console.log('isRespondingVolunteerShown',ArrivedVolunteerShown);
 
                 if(ArrivedVolunteer === true && ArrivedVolunteerShown === false){
-                    var a = <div>
-                                {/* <p>Incident Type: {this.props.incidentType}</p> */}
-                                <p><b>Incident Location:</b> {this.props.incidentLocation}</p>
+                    var a = <div style={{fontSize:'12px'}}>
+                                <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                                <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
                                 <p>Volunteer <b>{this.props.originalVolunteerName}</b> has arrrived at the incident.</p>
                             </div>; 
                     

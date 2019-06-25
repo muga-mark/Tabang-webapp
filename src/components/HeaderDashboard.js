@@ -48,19 +48,30 @@ class HeaderDashboard extends Component{
       super(props);
       
       this.state = {
+        isArrivedResponder: false,
+        isArrivedResponderShown: false,
+        isArrivedVolunteer: false,
+        isArrivedVolunteerShown: false,
+        isRespondingResponder: false,
+        isRespondingResponderShown: false,
+        isRespondingVolunteer: false,
+        isRespondingVolunteerShown: false,
+        unresponded: true,
+        isResponding: false,
+        isSettled: false,
         open: false,
         open2: false,
         incidentType: '',
         incidentLocation: '',
         destinationPlaceId:'',
         errorAddress:'',
-        unresponded: null,
-        isResponding: null,
-        isSettled: null,
+        // unresponded: null,
+        // isResponding: null,
+        // isSettled: null,
         lat: null,
         lng: null,
         errorMessage: '',
-        isShown: false,
+        // isShown: false,
         incidentPhoto: null,
         reportedBy: '',
         reporterName: '',
@@ -197,7 +208,6 @@ class HeaderDashboard extends Component{
       isResponding: false,
       isSettled: false,
       coordinates: {lng: this.state.lng, lat: this.state.lat},
-      // incidentPhoto: '',
       reportedBy: this.props.uid.uid,
       reporterName: this.state.firstName + " " + this.state.lastName,
       timeReceived,
@@ -208,14 +218,20 @@ class HeaderDashboard extends Component{
       destinationPlaceId: this.state.destinationPlaceId,
       isRequestingResponders: false,
       isRequestingVolunteers: false,
-      isRespondingResponder: false,
       unrespondedResponder: true,
-      isRespondingVolunteer: false,
       unrespondedVolunteer: true,
       isShown: false,
+      isRedundantReport: false,
+      isArrivedResponder: false,
+      isArrivedResponderShown: false,
+      isArrivedVolunteer: false,
+      isArrivedVolunteerShown: false,
+      isRespondingResponder: false,
       isRespondingResponderShown: false,
+      isRespondingVolunteer: false,
       isRespondingVolunteerShown: false,
-      isRedundantReport: false
+      isResponding: false,
+        
     }
     if (formValid(this.state)) {
       console.log(`
@@ -240,6 +256,7 @@ class HeaderDashboard extends Component{
         isRedundantReport: false
     });
     console.log(this.state.incidentsList);
+    this.close();
     swal(this.state.incidentLocation,"New incident has been added!");
   }
 
