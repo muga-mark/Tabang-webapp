@@ -35,6 +35,42 @@ class ArchivesDispaly extends Component{
         }
     }
 
+    displayMultipleResponders = () => {
+        if(this.props.incidentAdditionalResponders){
+            return _.map(this.props.incidentAdditionalResponders, (responder, key) => {
+                var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(responder.timeArrived), new Date(responder.timeReceived));
+                return (<div>
+                    <pre>Name: {responder.name}</pre>
+                    <pre>Time received: {responder.timeReceived}</pre>
+                    <pre>Time arrived: {responder.timeArrived}</pre>
+                    <pre>Total Response Time: {days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s</pre>
+                </div>);
+            })
+        }else{
+            return <div>
+                No other responders
+            </div>
+        }
+    }
+
+    displayMultipleVolunteers = () => {
+        if(this.props.incidentAdditionalVolunteers){
+            return _.map(this.props.incidentAdditionalVolunteers, (volunteer, key) => {
+                var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(volunteer.timeArrived), new Date(volunteer.timeReceived));
+                return (<div>
+                    <>Name: {volunteer.name}</>
+                    <>Time received: {volunteer.timeReceived}</>
+                    <>Time arrived: {volunteer.timeArrived}</>
+                    <>Total Response Time: {days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s</>
+                </div>);
+            })
+        }else{
+            return <div>
+                No other volunteers
+            </div>
+        }
+    }
+
     computeTotalResponseTime = (date2, date1) => {
         var res = Math.abs(date1 - date2) / 1000;
         var days = Math.floor(res / 86400);                      
@@ -87,12 +123,18 @@ class ArchivesDispaly extends Component{
                                                 <pre style={{marginBottom:'0px', marginTop:'-13px'}}>
                                                     <b>RESPONDED BY : </b> 
                                                     <u>  {this.props.feedbackByResponder}  </u>
+                                                    <br/>
+                                                    <b>OTHER RESPONDERS : </b>
+                                                    <>{this.displayMultipleResponders()}</>
                                                 </pre>
                                             </Form.Field>
                                             <Form.Field>
                                                 <pre style={{marginBottom:'0px', marginTop:'-13px'}}>
                                                     <b>VOLUNTEERED BY : </b> 
                                                     <u>  {this.props.incidentOriginalVolunteer}  </u>
+                                                    <br/>
+                                                    <b>OTHER VOLUNTEERS : </b> 
+                                                    <>  {this.displayMultipleVolunteers()}  </>
                                                 </pre>
                                             </Form.Field>
                                         </Form.Group>

@@ -6,6 +6,7 @@ import _ from 'lodash';
 import {callVolunteer} from '../functions/callVolunteer';
 import {getNearestMobileUsers} from '../functions/getNearestMobileUsers';
 import DispatchMobileUser from './DispatchMobileUser';
+import Notifications from './Notifications';
 import swal from 'sweetalert';
 import {NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -132,7 +133,7 @@ class EmergencyDetails extends Component{
                     
                     }, 8000);
             }
-            
+           
         });
 
         if(this.props.isDisplayCard === true && this.props.isDisplayCardShown === false){
@@ -140,7 +141,7 @@ class EmergencyDetails extends Component{
                 audio.play();
 
                 var a = <div style={{fontSize:'12px'}}>
-                            <b style={{paddingBottom:'8px'}}>NEW INCIDENT!</b> <br /><br />
+                            <b style={{paddingBottom:'8px'}}>NEW INCIDENT!</b> <br /> <br />
                             <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
                             <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
                         </div>; 
@@ -193,43 +194,7 @@ class EmergencyDetails extends Component{
         
         });
 
-        // var isDisplayedCard = fire.database().ref(`incidents/${this.props.incidentKey}/isDisplayedCard`);
-        // var isDisplayedCardShown = fire.database().ref(`incidents/${this.props.incidentKey}/isDisplayedCardShown`);
-        // var DisplayedCard;
-        // var DisplayedCardShown;
-        // isDisplayedCard.on('value', snapshot => {
-        //     DisplayedCard = snapshot.val();
-        //     this.setState({isDisplayedCard: DisplayedCard});
-        //     console.log('DisplayedCard',isDisplayedCard);
-
-        //     isDisplayedCardShown.on('value', snapshot => {
-        //         DisplayedCardShown = snapshot.val();
-        //         this.setState({isDisplayedCardShown: DisplayedCardShown});
-        //         console.log('isDisplayedCardShown',isDisplayedCardShown);
-           
-                    
-        //         if(DisplayedCard === true && isDisplayedCardShown === false){
-
-        //                 var audio = new Audio(notificationSound);
-        //                 audio.play();
-
-        //                 setTimeout(() => {
-                            
-
-        //                 var isDisplayedCardShown = fire.database().ref(`incidents/${this.props.incidentKey}`);    
-        //                 isDisplayedCardShown.update({isDisplayCardShown: true}).then(()=>{
-        //                     console.log('update isDisplayCardShown', isDisplayedCardShown);
-            
-        //                 }).catch(() => {
-        //                     console.log(`Error in marking report as redundant. ID: ${this.props.incidentKey}  `);
-        //                 });
-                        
-        //                 }, 3000);
-        //         }
-
-        //     });
-        // });
-
+        
         var isRespondingVolunteer = fire.database().ref(`incidents/${this.props.incidentKey}/isRespondingVolunteer`);
         var isRespondingVolunteerShown = fire.database().ref(`incidents/${this.props.incidentKey}/isRespondingVolunteerShown`);
         var respondingVolunteer;
@@ -393,7 +358,7 @@ class EmergencyDetails extends Component{
                                 }, 3000);
                             }
 
-                            var isRespondingResponderShownNode = fire.database().ref(`incidents/${this.props.incidentKey}/multipleVolunteers/${key}/isRespondingResponderShown`);
+                            var isRespondingResponderShownNode = fire.database().ref(`incidents/${this.props.incidentKey}/multipleResponders/${key}/isRespondingResponderShown`);
                             isRespondingResponderShownNode.on('value', snapshot => {
                                 var isRespondingResponderShown = snapshot.val();
                                 if(isRespondingResponder && !isRespondingResponderShown){
@@ -428,7 +393,7 @@ class EmergencyDetails extends Component{
                 this.setState({multipleVolunteers}, () => {
                     console.log('Multiple Volunteers', this.state.multipleVolunteers);
                     _.map(this.state.multipleVolunteers, (volunteer, key) => {
-
+                        
                         var isRespondingVolunteerNode = fire.database().ref(`incidents/${this.props.incidentKey}/multipleVolunteers/${key}/isRespondingVolunteer`);
                         isRespondingVolunteerNode.on('value', snapshot => {
                             var isRespondingVolunteer = snapshot.val();

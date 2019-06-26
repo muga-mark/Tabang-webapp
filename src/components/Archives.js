@@ -53,7 +53,7 @@ class Archives extends Component{
     renderAchives = () => {
         return _.map(this.state.archives, (archive, key) => {
             console.log('renderAchives', archive);
-            let feedbackLocation, incidentOriginalVolunteer, incidentImage, incidentLocation, feedbackReport, incidentAdditionalResponders, incidentAdditionalVolunteers;
+            let feedbackLocation, incidentOriginalVolunteer, incidentImage, incidentLocation, feedbackReport, incidentAdditionalResponders, incidentAdditionalVolunteers, incidentMultipleResponders, incidentMultipleVolunteers;
             console.log('arcive shit', archive.incidentCoordinates);
             
             if(!archive.feedbackLocation){
@@ -95,7 +95,6 @@ class Archives extends Component{
                 incidentAdditionalVolunteers = archive.incidentAdditionalVolunteers;
             }
             
-            
             return(
             <ArchivesDisplay incidentKey={archive.incidentID} 
                                 feedbackByResponder={archive.feedbackByResponder} 
@@ -112,6 +111,8 @@ class Archives extends Component{
                                 incidentAdditionalVolunteers={incidentAdditionalVolunteers} 
                                 incidentOriginalVolunteer={incidentOriginalVolunteer} 
                                 incidentType={archive.incidentType}
+                                incidentMultipleResponders={archive.incidentMultipleResponders}
+                                incidentAdditionalVolunteers={archive.incidentAdditionalVolunteers}
             />);
         });
     }
