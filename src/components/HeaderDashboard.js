@@ -19,6 +19,7 @@ import responderLogo from '../images/tracking_responder.png';
 import incStat from '../images/incident_new.png';
 import swal from 'sweetalert';
 import {Link} from "react-router";
+import 'react-notifications/lib/notifications.css';
 
 const noteRegex = RegExp(
   /^.{0,150}$/
@@ -75,7 +76,12 @@ class HeaderDashboard extends Component{
         incidentPhoto: null,
         reportedBy: '',
         reporterName: '',
-        timeReceived: null,
+        timeResponderReceived: '',
+        timeVolunteerReceived: '',
+        timeResponderArrived: '',
+        timeVolunteerArrived: '',
+        originalResponderName:'',
+        originalVolunteerName:'',
         timeResponded: null,
         responderResponding: [],
         volunteerResponding: '',
@@ -231,6 +237,14 @@ class HeaderDashboard extends Component{
       isRespondingVolunteer: false,
       isRespondingVolunteerShown: false,
       isResponding: false,
+      timeResponderReceived: '',
+      timeVolunteerReceived: '',
+      timeResponderArrived: '',
+      timeVolunteerArrived: '',
+      originalResponderName:'',
+      originalVolunteerName:'',
+      isDisplayCard: false,
+      isDisplayCardShown: false
         
     }
     if (formValid(this.state)) {
@@ -257,7 +271,9 @@ class HeaderDashboard extends Component{
     });
     console.log(this.state.incidentsList);
     this.close();
-    swal(this.state.incidentLocation,"New incident has been added!");
+    // swal(this.state.incidentLocation,"New incident has been added!");
+
+    
   }
 
  
@@ -275,11 +291,11 @@ class HeaderDashboard extends Component{
     const { formError } = this.state;
     const {errorMessage} = this.state;
 
-    const searchOptions = {
-      location: new google.maps.LatLng(10.324646, 123.942197),
-      radius: 10,
-      types: ['establishment']
-    }
+    // const searchOptions = {
+    //   location: new google.maps.LatLng(10.324646, 123.942197),
+    //   radius: 10,
+    //   types: ['establishment']
+    // }
 
     // this.getUserProfile();
 
@@ -357,7 +373,7 @@ class HeaderDashboard extends Component{
                       value={this.state.incidentLocation}
                       onChange={this.handleChange}
                       onSelect={this.handleSelect}
-                      searchOptions={searchOptions}
+                      // searchOptions={searchOptions}
                       // shouldFetchSuggestions={this.state.incidentLocation.length > 3}
                   >
                       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (

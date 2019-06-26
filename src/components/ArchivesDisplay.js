@@ -125,41 +125,34 @@ class ArchivesDispaly extends Component{
                                     </div>
 
                                     <div style={{paddingBottom:'5px', fontSize:'1em', fontFamily:'monospace,monospace'}}>
-                                        <Form.Group widths='2'>
-                                            <Form.Field>
-                                                <pre style={{marginBottom:'0px'}}>
-                                                    <b>TYPE OF INCIDENT  : </b> 
-                                                    <u>  {this.props.incidentType}  </u>
-                                                </pre>
-                                            </Form.Field>
-                                            <Form.Field>
-                                                <pre style={{marginBottom:'0px'}}>
-                                                    <b>SETTLED DATE        : </b> 
-                                                    <u>  {this.props.feedbackTimeSettled}  </u>
-                                                </pre>
-                                            </Form.Field>
-                                        </Form.Group>
 
-                                        <Form.Group widths='2'>
-                                            <Form.Field>
-                                                <pre style={{marginBottom:'5px', marginTop:'-13px'}}>
-                                                    <b>INCIDENT LOCATION : </b> 
-                                                    <u>&nbsp;&nbsp;{this.props.incidentLocation}&nbsp;&nbsp;</u>
-                                                </pre>
-                                            </Form.Field>
-                                            <Form.Field>
-                                                <pre style={{marginBottom:'5px', marginTop:'-13px'}}>
-                                                    <b>TOTAL RESPONSE TIME : </b> 
-                                                    <u>{days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s</u>
-                                                </pre>
-                                            </Form.Field>
-                                        </Form.Group>
-                                          
-                                        <pre style={{marginBottom:'5px', marginTop:'-13px'}}>
+                                        <pre style={{marginBottom:'5px', marginTop:'10px'}}>
+                                            <b>SETTLED DATE        : </b> 
+                                            <u>  {this.props.feedbackTimeSettled}  </u>
+                                        </pre> 
+
+                                        <pre style={{marginBottom:'5px', marginTop:'0px'}}>
+                                            <b>TOTAL RESPONSE TIME : </b> 
+                                            <u>{days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s</u>
+                                        </pre> 
+
+                                        <pre style={{marginBottom:'5px'}}> 
+                                            <b>INCIDENT LOCATION : </b> 
+                                            <u>&nbsp;&nbsp;{this.props.incidentLocation}&nbsp;&nbsp;</u>
+                                        </pre> 
+                                    
+                    
+                                        <pre style={{marginBottom:'5px', marginTop:'0px'}}>
+                                            <b>TYPE OF INCIDENT  : </b> 
+                                            <u>  {this.props.incidentType}  </u>
+                                        </pre> 
+                                        
+                                        <pre style={{marginBottom:'5px', marginTop:'0px'}}>
                                             <b>DETAILED LOCATION : </b> 
                                             <u>  {this.props.feedbackLocation}  </u>
-                                        </pre>
-                                        <pre style={{marginBottom:'15px', marginTop:'5px'}}>
+                                        </pre> 
+
+                                        <pre style={{marginBottom:'15px', marginTop:'0px'}}>
                                             <b>      COORDINATES : </b>
                                             {_.map(this.props.incidentCoordinates, (coordinates) => {
                                                 console.log('inmapcoordinates', coordinates);
@@ -167,7 +160,9 @@ class ArchivesDispaly extends Component{
                                                     <u>  {coordinates}  </u>
                                                 );
                                             })}
-                                        </pre>
+                                        </pre> 
+
+                                        
 
                                         <div style={{marginBottom:'15px', marginTop:'5px'}}>
                                             <b>INCIDENT DESCRIPTION</b> 

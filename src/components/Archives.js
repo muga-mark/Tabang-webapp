@@ -100,7 +100,7 @@ class Archives extends Component{
             <ArchivesDisplay incidentKey={archive.incidentID} 
                                 feedbackByResponder={archive.feedbackByResponder} 
                                 feedbackLocation={feedbackLocation} 
-                                feedbackReport={archive.feedbackReport}
+                                feedbackReport={feedbackReport}
                                 feedbackTimeSettled={archive.feedbackTimeSettled}
                                 incidentLocation={incidentLocation} 
                                 incidentTimeReceived={archive.incidentTimeReceived}

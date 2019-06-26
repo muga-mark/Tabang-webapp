@@ -10,6 +10,8 @@ import swal from 'sweetalert';
 import {NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import {computeDistance} from '../functions/computeDistance';
+import notificationSound from '../sound files/notificationSound.mp3';
+import incidentReceived from '../sound files/incidentReceived/incidentReceived.mp3';
 
 const qualityRegex = RegExp(
     /^[0-9\b]+$/
@@ -69,6 +71,8 @@ class EmergencyDetails extends Component{
             let m = Math.floor((count / 60000)) % 60;
             this.setState({ms, s, m});
         }, 10);
+        console.log('multiple responders', this.props.multipleResponders);
+        console.log('multiple volunteers', this.props.multipleVolunteers);
     }
 
     componentDidMount(){
@@ -85,6 +89,73 @@ class EmergencyDetails extends Component{
             this.setState({isRequestingVolunteers: requestVolunteers});
         });
 
+        var isDisplayCard = fire.database().ref(`incidents/${this.props.incidentKey}/isDisplayCard`);
+        var DisplayCard;
+        
+       
+       
+        isDisplayCard.on('value', snapshot => {
+            DisplayCard = snapshot.val();
+            this.setState({isDisplayCard: DisplayCard});
+            console.log('isDisplayCard',DisplayCard);
+
+            if(DisplayCard === false){
+                setTimeout(() => {
+                            
+                    var isDisplayCard = fire.database().ref(`incidents/${this.props.incidentKey}`);
+                    isDisplayCard.update({isDisplayCard: true}).then(()=>{
+                        console.log('update isDisplayCard', isDisplayCard);
+                    });
+                    
+                    }, 3000);
+            }
+
+        
+        });
+
+        var isDisplayCardShown = fire.database().ref(`incidents/${this.props.incidentKey}/isDisplayCardShown`);
+        var DisplayCardShown;
+        isDisplayCardShown.on('value', snapshot => {
+            respondingResponderShown = snapshot.val();
+            this.setState({isDisplayCardShown: DisplayCardShown});
+            console.log('isDisplayCardShown',DisplayCardShown);
+
+            if(DisplayCardShown === false){
+                setTimeout(() => {
+                    
+                    var isDisplayCardShown = fire.database().ref(`incidents/${this.props.incidentKey}`);
+                    isDisplayCardShown.update({isDisplayCardShown: true}).then(()=>{
+                        console.log('update isDisplayCardShown', isDisplayCardShown);
+                    });
+                    
+                    }, 8000);
+            }
+            // if(DisplayCard === true && DisplayCardShown === false){
+            //     var audio = new Audio(notificationSound);
+            //     audio.play();
+
+            //     var a = <div style={{fontSize:'12px'}}>
+            //                 <b style={{paddingBottom:'8px'}}>NEW INCIDENT!</b> <br />
+            //                 <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+            //                 <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
+            //             </div>; 
+                
+            //     NotificationManager.success(a,'', 20000);
+            // }
+        });
+
+        if(this.props.isDisplayCard === true && this.props.isDisplayCardShown === false){
+            // var audio = new Audio(notificationSound);
+            // audio.play();
+
+                var a = <div style={{fontSize:'12px'}}>
+                            <b style={{paddingBottom:'8px'}}>NEW INCIDENT!</b> <br />
+                            <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                            <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
+                        </div>; 
+                
+                NotificationManager.success(a,'', 20000);
+        }
     
         var isRespondingResponder = fire.database().ref(`incidents/${this.props.incidentKey}/isRespondingResponder`);
         var isRespondingResponderShown = fire.database().ref(`incidents/${this.props.incidentKey}/isRespondingResponderShown`);
@@ -96,8 +167,12 @@ class EmergencyDetails extends Component{
             console.log('isRespondingResponder',respondingResponder);
 
             if(respondingResponder === true){
+
+                var audio = new Audio(notificationSound);
+                audio.play();
+
                 setTimeout(() => {
-            
+                    
                     var isRespondingResponderShown = fire.database().ref(`incidents/${this.props.incidentKey}`);
                     isRespondingResponderShown.update({isRespondingResponderShown: true}).then(()=>{
                         console.log('update isArrivedResponderShown', isRespondingResponderShown);
@@ -106,7 +181,7 @@ class EmergencyDetails extends Component{
                         console.log(`Error in marking report as redundant. ID: ${this.props.incidentKey}  `);
                     });
                     
-                    }, 7000);
+                    }, 3000);
             }
 
             isRespondingResponderShown.on('value', snapshot => {
@@ -124,7 +199,45 @@ class EmergencyDetails extends Component{
                     NotificationManager.success(a,'', 20000);
                 }
             });
+        
         });
+
+        // var isDisplayedCard = fire.database().ref(`incidents/${this.props.incidentKey}/isDisplayedCard`);
+        // var isDisplayedCardShown = fire.database().ref(`incidents/${this.props.incidentKey}/isDisplayedCardShown`);
+        // var DisplayedCard;
+        // var DisplayedCardShown;
+        // isDisplayedCard.on('value', snapshot => {
+        //     DisplayedCard = snapshot.val();
+        //     this.setState({isDisplayedCard: DisplayedCard});
+        //     console.log('DisplayedCard',isDisplayedCard);
+
+        //     isDisplayedCardShown.on('value', snapshot => {
+        //         DisplayedCardShown = snapshot.val();
+        //         this.setState({isDisplayedCardShown: DisplayedCardShown});
+        //         console.log('isDisplayedCardShown',isDisplayedCardShown);
+           
+                    
+        //         if(DisplayedCard === true && isDisplayedCardShown === false){
+
+        //                 var audio = new Audio(notificationSound);
+        //                 audio.play();
+
+        //                 setTimeout(() => {
+                            
+
+        //                 var isDisplayedCardShown = fire.database().ref(`incidents/${this.props.incidentKey}`);    
+        //                 isDisplayedCardShown.update({isDisplayCardShown: true}).then(()=>{
+        //                     console.log('update isDisplayCardShown', isDisplayedCardShown);
+            
+        //                 }).catch(() => {
+        //                     console.log(`Error in marking report as redundant. ID: ${this.props.incidentKey}  `);
+        //                 });
+                        
+        //                 }, 3000);
+        //         }
+
+        //     });
+        // });
 
         var isRespondingVolunteer = fire.database().ref(`incidents/${this.props.incidentKey}/isRespondingVolunteer`);
         var isRespondingVolunteerShown = fire.database().ref(`incidents/${this.props.incidentKey}/isRespondingVolunteerShown`);
@@ -136,8 +249,12 @@ class EmergencyDetails extends Component{
             console.log('isRespondingVolunteer',respondingVolunteer);
 
             if(respondingVolunteer === true){
+
+                var audio = new Audio(notificationSound);
+                audio.play();
+
                 setTimeout(() => {
-            
+                    
                     var isRespondingVolunteerShown = fire.database().ref(`incidents/${this.props.incidentKey}`);
                     isRespondingVolunteerShown.update({isRespondingVolunteerShown: true}).then(()=>{
                         console.log('update isArrivedResponderShown', isRespondingVolunteerShown);
@@ -146,7 +263,7 @@ class EmergencyDetails extends Component{
                         console.log(`Error in marking report as redundant. ID: ${this.props.incidentKey}  `);
                     });
                     
-                    }, 7000);
+                    }, 3000);
             }
 
             isRespondingVolunteerShown.on('value', snapshot => {
@@ -160,7 +277,7 @@ class EmergencyDetails extends Component{
                                 <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
                                 <p>Volunteer <b>{this.props.originalVolunteerName}</b> has accepted this incident.</p>
                             </div>; 
-                    
+                
                     NotificationManager.success(a,'', 20000);
                 }
             });
@@ -176,8 +293,12 @@ class EmergencyDetails extends Component{
             console.log('RESPONDER_ARRIVED',ArrivedResponder);
 
             if(ArrivedResponder === true){
+
+                var audio = new Audio(notificationSound);
+                audio.play();
+
                 setTimeout(() => {
-            
+
                     var isArrivedResponderShown = fire.database().ref(`incidents/${this.props.incidentKey}`);
                     isArrivedResponderShown.update({isArrivedResponderShown: true}).then(()=>{
                         console.log('update isArrivedResponderShown', isArrivedResponderShown);
@@ -186,7 +307,7 @@ class EmergencyDetails extends Component{
                         console.log(`Error in marking report as redundant. ID: ${this.props.incidentKey}  `);
                     });
                     
-                    }, 7000);
+                    }, 3000);
             }
 
             isArrivedResponderShown.on('value', snapshot => {
@@ -216,8 +337,12 @@ class EmergencyDetails extends Component{
             console.log('RESPONDER_ARRIVED',ArrivedVolunteer);
 
             if(ArrivedVolunteer === true){
+                
+                var audio = new Audio(notificationSound);
+                audio.play();
+
                 setTimeout(() => {
-            
+
                     var isArrivedVolunteerShown = fire.database().ref(`incidents/${this.props.incidentKey}`);
                     isArrivedVolunteerShown.update({isArrivedVolunteerShown: true}).then(()=>{
                         console.log('update isArrivedResponderShown', isArrivedVolunteerShown);
@@ -226,7 +351,7 @@ class EmergencyDetails extends Component{
                         console.log(`Error in marking report as redundant. ID: ${this.props.incidentKey}  `);
                     });
                     
-                    }, 7000);
+                    }, 3000);
             }
 
             isArrivedVolunteerShown.on('value', snapshot => {

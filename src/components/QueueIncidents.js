@@ -6,6 +6,8 @@ import {getIncidents} from '../actions/incidentAction';
 import '../stylesheet_QueueIncidents.css';
 import {NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import notificationSound from '../sound files/notificationSound.mp3';
+import fire from '../config/Fire';
 
 class QueueIncidents extends Component {
    
@@ -55,9 +57,8 @@ class QueueIncidents extends Component {
             return new Date(b.timeReceived) - new Date(a.timeReceived);
           });
         return _.map(list, (incident, key) => {
-        
-            
-             
+        var multipleVolunteers, multipleResponders;
+    
         if(incident.isRedundantReport === false){
             if(incident.isSettled === false){
                 return (
@@ -79,6 +80,8 @@ class QueueIncidents extends Component {
                             image_uri = {incident.image_uri}
                             originalResponderName = {incident.originalResponderName}
                             originalVolunteerName = {incident.originalVolunteerName}
+                            isDisplayCard = {incident.isDisplayCard}
+                            isDisplayCardShown = {incident.isDisplayCardShown}
 
                         />
                     </div>
@@ -86,17 +89,38 @@ class QueueIncidents extends Component {
             }
             }
             if(incident.isSettled === true && incident.isShown === false){  
-                var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(incident.imeSettled), new Date(incident.timeReceived)); 
+                var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(incident.timeResponderArrived), new Date(incident.timeReceived)); 
                 var a = <div style={{fontSize:'12px'}}>
-                                <b style={{paddingBottom:'8px'}}>Incident ID:</b>{incident.incidentKey} <br />
+                                <b style={{paddingBottom:'8px'}}>Incident ID:</b>{incident.key} <br />
                                 <b style={{paddingBottom:'8px'}}>Incident Location:</b> {incident.incidentLocation} <br /> <br />
                                 <span style={{paddingBottom:'8px'}}>This incident has been settled</span> <br /> <br />
-                                <span>Total Response Time: <br />
+                                <span><b>Total Response Time:</b> <br />
                                 {days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s </span>
                         </div>; 
             
-                    NotificationManager.success(a,'', 20000);
+                var audio = new Audio(notificationSound);
+                audio.play();
+                
+                NotificationManager.success(a,'', 20000);
             }
+
+            if(incident.isDisplayCard === false && incident.isDisplayCardShown === false){
+                var audio = new Audio(notificationSound);
+                audio.play();
+            }
+            
+            // if(incident.isDisplayCard === true && incident.isDisplayCardShown === false){
+            //     // var audio = new Audio(notificationSound);
+            //     // audio.play();
+
+            //         var a = <div style={{fontSize:'12px'}}>
+            //                     <b style={{paddingBottom:'8px'}}>NEW INCIDENT!</b> <br />
+            //                     <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+            //                     <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
+            //                 </div>; 
+                    
+            //         NotificationManager.success(a,'', 20000);
+            // }
         });
     }
     
