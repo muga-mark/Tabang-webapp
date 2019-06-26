@@ -35,28 +35,6 @@ class ArchivesDispaly extends Component{
         }
     }
 
-    displayAdditionalMobileUsers(user_type){
-        switch(user_type){
-            case 'Volunteer': 
-                            if(this.props.incidentAdditionalVolunteers === "No additional volunteers"){
-                                return <div>{this.props.incidentAdditionalVolunteers}</div>
-                            }else{
-                                console.log('volunteerarchives', this.props.incidentAdditionalVolunteers);
-                                return _.map(this.props.incidentAdditionalVolunteers, (volunteer, key) => {
-                                    console.log('volunteerarchives', volunteer);
-                                    var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(volunteer.timeArrived), new Date(volunteer.timeReceived));
-                                    return(<>
-                                        <p>ID: {key}</p>
-                                        <p>Name: {volunteer.name}</p>
-                                        <p>Time received: {volunteer.timeReceived}</p>
-                                        <p>Time arrived: {volunteer.timeArrived}</p>
-                                        <p>Response Time: {days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s</p>
-                                    </>);
-                                });
-                            }
-        }
-    }
-
     computeTotalResponseTime = (date2, date1) => {
         var res = Math.abs(date1 - date2) / 1000;
         var days = Math.floor(res / 86400);                      

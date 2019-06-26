@@ -268,6 +268,8 @@ class HeaderDashboard extends Component{
         isRespondingResponderShown: false,
         isRespondingVolunteerShown: false,
         isRedundantReport: false
+    }, () => {
+      document.location.reload(true);
     });
     console.log(this.state.incidentsList);
     this.close();

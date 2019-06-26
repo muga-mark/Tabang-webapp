@@ -104,10 +104,10 @@ class QueueIncidents extends Component {
                 NotificationManager.success(a,'', 20000);
             }
 
-            if(incident.isDisplayCard === false && incident.isDisplayCardShown === false){
-                var audio = new Audio(notificationSound);
-                audio.play();
-            }
+            // if(incident.isDisplayCard === false && incident.isDisplayCardShown === false){
+            //     var audio = new Audio(notificationSound);
+            //     audio.play();
+            // }
             
             // if(incident.isDisplayCard === true && incident.isDisplayCardShown === false){
             //     // var audio = new Audio(notificationSound);
