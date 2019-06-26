@@ -326,7 +326,7 @@ class EmergencyDetails extends Component{
             });
         });
 
-        //for notifications in multiple responders
+        //for notifications in multiple responders (accept)
         var multipleRespondersNode = fire.database().ref(`incidents/${this.props.incidentKey}/multipleResponders`);
         multipleRespondersNode.on('value', snapshot => {
             var multipleResponders = snapshot.val();
@@ -346,7 +346,7 @@ class EmergencyDetails extends Component{
                                 audio.play();
 
                                 setTimeout(() => {
-                                    var isRespondingResponderShown = fire.database().ref(`incidents/${this.props.incidentKey}/multipleVolunteers/${key}`);
+                                    var isRespondingResponderShown = fire.database().ref(`incidents/${this.props.incidentKey}/multipleResponders/${key}`);
                                     isRespondingResponderShown.update({isRespondingResponderShown: true}).then(()=>{
                                         console.log('update isRespondingResponderShown', isRespondingResponderShown);
                         
@@ -357,7 +357,7 @@ class EmergencyDetails extends Component{
                                 }, 3000);
                             }
 
-                            var isRespondingResponderShownNode = fire.database().ref(`incidents/${this.props.incidentKey}/multipleVolunteers/${key}/isRespondingResponderShown`);
+                            var isRespondingResponderShownNode = fire.database().ref(`incidents/${this.props.incidentKey}/multipleResponders/${key}/isRespondingResponderShown`);
                             isRespondingResponderShownNode.on('value', snapshot => {
                                 var isRespondingResponderShown = snapshot.val();
                                 if(isRespondingResponder && !isRespondingResponderShown){
@@ -365,7 +365,7 @@ class EmergencyDetails extends Component{
                                     var a = <div style={{fontSize:'12px'}}>
                                         <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
                                         <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
-                                        <p>Volunteer <b>{this.props.name}</b> has accepted this incident.</p>
+                                        <p>Another Responder <b>{responder.name}</b> has accepted this incident.</p>
                                     </div>; 
                         
                                     NotificationManager.success(a,'', 20000);
@@ -382,7 +382,7 @@ class EmergencyDetails extends Component{
         });
         
     
-        //for notifications in multiple volunteers
+        //for notifications in multiple volunteers (accept)
         var multipleVolunteersNode = fire.database().ref(`incidents/${this.props.incidenKey}/multipleVolunteers`);
         multipleVolunteersNode.on('value', snapshot => {
             var multipleVolunteers = snapshot.val();
@@ -422,7 +422,7 @@ class EmergencyDetails extends Component{
                                     var a = <div style={{fontSize:'12px'}}>
                                         <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
                                         <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
-                                        <p>Volunteer <b>{this.props.name}</b> has accepted this incident.</p>
+                                        <p>Another Volunteer <b>{volunteer.name}</b> has accepted this incident.</p>
                                     </div>; 
                         
                                     NotificationManager.success(a,'', 20000);
@@ -437,6 +437,346 @@ class EmergencyDetails extends Component{
                 })
             }
         });
+
+
+        //for notifications in multiple responders (arrive)
+        var multipleRespondersNode = fire.database().ref(`incidents/${this.props.incidentKey}/multipleResponders`);
+        multipleRespondersNode.on('value', snapshot => {
+            var multipleResponders = snapshot.val();
+            if(!multipleResponders || multipleResponders === ""){
+                console.log("Error in pulling from multipleResponders node");
+            }else{
+                this.setState({multipleResponders}, () => {
+                    console.log('Multiple Responders', this.state.multipleResponders);
+                    _.map(this.state.multipleResponders, (responder, key) => {
+                        var isArrivedResponderNode = fire.database().ref(`incidents/${this.props.incidentKey}/multipleResponders/${key}/isArrivedResponder`);
+                        isArrivedResponderNode.on('value', snapshot => {
+                            var isArrivedResponder = snapshot.val();
+                            if(!isArrivedResponder){
+                                console.log(`1: Error in listening to isArrivedResponderShown. ID: ${key}`);                            
+                            }else{
+                                var audio = new Audio(notificationSound);
+                                audio.play();
+
+                                setTimeout(() => {
+                                    var isArrivedResponderShown = fire.database().ref(`incidents/${this.props.incidentKey}/multipleResponders/${key}`);
+                                    isArrivedResponderShown.update({isArrivedResponderShown: true}).then(()=>{
+                                        console.log('update isRespondingResponderShown', isArrivedResponderShown);
+                        
+                                    }).catch(() => {
+                                        console.log(`2. Error in listening to isRespondingResponderShown. ID: ${key}`);
+                                    });
+                                    
+                                }, 3000);
+                            }
+
+                            var isArrivedResponderShownNode = fire.database().ref(`incidents/${this.props.incidentKey}/multipleResponders/${key}/isArrivedResponderShown`);
+                            isArrivedResponderShownNode.on('value', snapshot => {
+                                var isArrivedResponderShown = snapshot.val();
+                                if(isArrivedResponder && !isArrivedResponderShown){
+
+                                    var a = <div style={{fontSize:'12px'}}>
+                                        <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                                        <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
+                                        <p>Another Responder <b>{responder.name}</b> has arrived at the incident.</p>
+                                    </div>; 
+                        
+                                    NotificationManager.success(a,'', 20000);
+    
+                                }else{
+                                    console.log(`3. Error in listening to isArrivedResponderShown. ID: ${key}`);      
+                                }
+                            });
+                    
+                        });
+                    });
+                })
+            }
+        });
+        
+    
+        //for notifications in multiple volunteers (arrive)
+        var multipleVolunteersNode = fire.database().ref(`incidents/${this.props.incidenKey}/multipleVolunteers`);
+        multipleVolunteersNode.on('value', snapshot => {
+            var multipleVolunteers = snapshot.val();
+            if(!multipleVolunteers || multipleVolunteers === ""){
+                console.log("Error in pulling from multipleVolunteers node");
+            }else{
+                this.setState({multipleVolunteers}, () => {
+                    console.log('Multiple Volunteers', this.state.multipleVolunteers);
+                    _.map(this.state.multipleVolunteers, (volunteer, key) => {
+
+                        var isArrivedVolunteerNode = fire.database().ref(`incidents/${this.props.incidentKey}/multipleVolunteers/${key}/isArrivedVolunteer`);
+                        isArrivedVolunteerNode.on('value', snapshot => {
+                            var isArrivedVolunteer = snapshot.val();
+                            if(isArrivedVolunteer){
+                                var audio = new Audio(notificationSound);
+                                audio.play();
+
+                                setTimeout(() => {
+                                    var isArrivedVolunteerShown = fire.database().ref(`incidents/${this.props.incidentKey}/multipleVolunteers/${key}`);
+                                    isArrivedVolunteerShown.update({isArrivedVolunteerShown: true}).then(()=>{
+                                        console.log('update isArrivedVolunteerShown', isArrivedVolunteerShown);
+                        
+                                    }).catch(() => {
+                                        console.log(`Error in listening to isArrivedVolunteerShown. ID: ${key}`);
+                                    });
+                                    
+                                    }, 3000);
+                            }else{
+                                console.log(`Error in listening to isArrivedVolunteerShown. ID: ${key}`);                            
+                            }
+
+                            var isArrivedVolunteerShownNode = fire.database().ref(`incidents/${this.props.incidenKey}/multipleVolunteers/${key}/isArrivedVolunteerShown`);
+                            isArrivedVolunteerShownNode.on('value', snapshot => {
+                                var isArrivedVolunteerShown = snapshot.val();
+                                if(isArrivedVolunteer && !isArrivedVolunteerShown){
+
+                                    var a = <div style={{fontSize:'12px'}}>
+                                        <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                                        <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
+                                        <p>Another Volunteer <b>{volunteer.name}</b> has arrived at the incident.</p>
+                                    </div>; 
+                        
+                                    NotificationManager.success(a,'', 20000);
+    
+                                }else{
+                                    console.log(`Error in listening to isArrivedVolunteerShown. ID: ${key}`);      
+                                }
+                            });
+                    
+                        });
+                    })
+                })
+            }
+        });
+
+        //for notifications in request responders (accept)
+        var requestRespondersNode = fire.database().ref(`incidents/${this.props.incidentKey}/requestResponders`);
+        requestRespondersNode.on('value', snapshot => {
+            var requestResponders = snapshot.val();
+            if(!requestResponders || requestResponders === ""){
+                console.log("Error in pulling from multipleResponders node");
+            }else{
+                this.setState({requestResponders}, () => {
+                    console.log('Request Responders', this.state.requestResponders);
+                    _.map(this.state.requestResponders, (responder, key) => {
+                        var isRespondingResponderNode = fire.database().ref(`incidents/${this.props.incidentKey}/requestResponders/${key}/isRespondingResponder`);
+                        isRespondingResponderNode.on('value', snapshot => {
+                            var isRespondingResponder = snapshot.val();
+                            if(!isRespondingResponder){
+                                console.log(`1: Error in listening to isRespondingResponderShown. ID: ${key}`);                            
+                            }else{
+                                var audio = new Audio(notificationSound);
+                                audio.play();
+
+                                setTimeout(() => {
+                                    var isRespondingResponderShown = fire.database().ref(`incidents/${this.props.incidentKey}/requestResponders/${key}`);
+                                    isRespondingResponderShown.update({isRespondingResponderShown: true}).then(()=>{
+                                        console.log('update isRespondingResponderShown', isRespondingResponderShown);
+                        
+                                    }).catch(() => {
+                                        console.log(`2. Error in listening to isRespondingResponderShown. ID: ${key}`);
+                                    });
+                                    
+                                }, 3000);
+                            }
+
+                            var isRespondingResponderShownNode = fire.database().ref(`incidents/${this.props.incidentKey}/requestResponders/${key}/isRespondingResponderShown`);
+                            isRespondingResponderShownNode.on('value', snapshot => {
+                                var isRespondingResponderShown = snapshot.val();
+                                if(isRespondingResponder && !isRespondingResponderShown){
+
+                                    var a = <div style={{fontSize:'12px'}}>
+                                        <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                                        <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
+                                        <p>Request Volunteer <b>{responder.name}</b> has accepted this incident.</p>
+                                    </div>
+                        
+                                    NotificationManager.success(a,'', 20000);
+    
+                                }else{
+                                    console.log(`3. Error in listening to isRespondingResponderShown. ID: ${key}`);      
+                                }
+                            });
+                    
+                        });
+                    });
+                })
+            }
+        });
+        
+    
+        //for notifications in request volunteers (accept)
+        var requestVolunteersNode = fire.database().ref(`incidents/${this.props.incidenKey}/requestVolunteers`);
+        requestVolunteersNode.on('value', snapshot => {
+            var requestVolunteers = snapshot.val();
+            if(!requestVolunteers || requestVolunteers === ""){
+                console.log("Error in pulling from multipleVolunteers node");
+            }else{
+                this.setState({requestVolunteers}, () => {
+                    console.log('Multiple Volunteers', this.state.requestVolunteers);
+                    _.map(this.state.requestVolunteers, (volunteer, key) => {
+
+                        var isRespondingVolunteerNode = fire.database().ref(`incidents/${this.props.incidentKey}/requestVolunteers/${key}/isRespondingVolunteer`);
+                        isRespondingVolunteerNode.on('value', snapshot => {
+                            var isRespondingVolunteer = snapshot.val();
+                            if(isRespondingVolunteer){
+                                var audio = new Audio(notificationSound);
+                                audio.play();
+
+                                setTimeout(() => {
+                                    var isRespondingVolunteerShown = fire.database().ref(`incidents/${this.props.incidentKey}/requestVolunteers/${key}`);
+                                    isRespondingVolunteerShown.update({isRespondingVolunteerShown: true}).then(()=>{
+                                        console.log('update isRespondingVolunteerShown', isRespondingVolunteerShown);
+                        
+                                    }).catch(() => {
+                                        console.log(`Error in listening to isRespondingVolunteer. ID: ${key}`);
+                                    });
+                                    
+                                    }, 3000);
+                            }else{
+                                console.log(`Error in listening to isRespondingVolunteer. ID: ${key}`);                            
+                            }
+
+                            var isRespondingVolunteerShownNode = fire.database().ref(`incidents/${this.props.incidenKey}/requestVolunteers/${key}/isRespondingVolunteerShown`);
+                            isRespondingVolunteerShownNode.on('value', snapshot => {
+                                var isRespondingVolunteerShown = snapshot.val();
+                                if(isRespondingVolunteer && !isRespondingVolunteerShown){
+
+                                    var a = <div style={{fontSize:'12px'}}>
+                                        <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                                        <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
+                                        <p>Request Volunteer <b>{volunteer.name}</b> has accepted this incident.</p>
+                                    </div>; 
+                        
+                                    NotificationManager.success(a,'', 20000);
+    
+                                }else{
+                                    console.log(`Error in listening to isRespondingVolunteerShown. ID: ${key}`);      
+                                }
+                            });
+                    
+                        });
+                    })
+                })
+            }
+        });
+
+
+        //for notifications in request responders (arrive)
+        var requestRespondersNode = fire.database().ref(`incidents/${this.props.incidentKey}/requestResponders`);
+        requestRespondersNode.on('value', snapshot => {
+            var requestResponders = snapshot.val();
+            if(!requestResponders || requestResponders === ""){
+                console.log("Error in pulling from multipleResponders node");
+            }else{
+                this.setState({requestResponders}, () => {
+                    console.log('Multiple Responders', this.state.requestResponders);
+                    _.map(this.state.requestResponders, (responder, key) => {
+                        var isArrivedResponderNode = fire.database().ref(`incidents/${this.props.incidentKey}/requestResponders/${key}/isArrivedResponder`);
+                        isArrivedResponderNode.on('value', snapshot => {
+                            var isArrivedResponder = snapshot.val();
+                            if(!isArrivedResponder){
+                                console.log(`1: Error in listening to isArrivedResponderShown. ID: ${key}`);                            
+                            }else{
+                                var audio = new Audio(notificationSound);
+                                audio.play();
+
+                                setTimeout(() => {
+                                    var isArrivedResponderShown = fire.database().ref(`incidents/${this.props.incidentKey}/requestResponders/${key}`);
+                                    isArrivedResponderShown.update({isArrivedResponderShown: true}).then(()=>{
+                                        console.log('update isRespondingResponderShown', isArrivedResponderShown);
+                        
+                                    }).catch(() => {
+                                        console.log(`2. Error in listening to isRespondingResponderShown. ID: ${key}`);
+                                    });
+                                    
+                                }, 3000);
+                            }
+
+                            var isArrivedResponderShownNode = fire.database().ref(`incidents/${this.props.incidentKey}/requestResponders/${key}/isRespondingResponderShown`);
+                            isArrivedResponderShownNode.on('value', snapshot => {
+                                var isArrivedResponderShown = snapshot.val();
+                                if(isArrivedResponder && !isArrivedResponderShown){
+
+                                    var a = <div style={{fontSize:'12px'}}>
+                                        <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                                        <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
+                                        <p>Request Responder <b>{responder.name}</b> has arrived at the incident.</p>
+                                    </div>; 
+                        
+                                    NotificationManager.success(a,'', 20000);
+    
+                                }else{
+                                    console.log(`3. Error in listening to isArrivedResponderShown. ID: ${key}`);      
+                                }
+                            });
+                    
+                        });
+                    });
+                })
+            }
+        });
+        
+    
+        //for notifications in request volunteers (arrive)
+        var requestVolunteerNode = fire.database().ref(`incidents/${this.props.incidenKey}/requestVolunteer`);
+        requestVolunteerNode.on('value', snapshot => {
+            var requestVolunteer = snapshot.val();
+            if(!requestVolunteer || requestVolunteer === ""){
+                console.log("Error in pulling from multipleVolunteers node");
+            }else{
+                this.setState({requestVolunteer}, () => {
+                    console.log('Multiple Volunteers', this.state.requestVolunteer);
+                    _.map(this.state.requestVolunteer, (volunteer, key) => {
+
+                        var isArrivedVolunteerNode = fire.database().ref(`incidents/${this.props.incidentKey}/requestVolunteer/${key}/isArrivedVolunteer`);
+                        isArrivedVolunteerNode.on('value', snapshot => {
+                            var isArrivedVolunteer = snapshot.val();
+                            if(isArrivedVolunteer){
+                                var audio = new Audio(notificationSound);
+                                audio.play();
+
+                                setTimeout(() => {
+                                    var isArrivedVolunteerShown = fire.database().ref(`incidents/${this.props.incidentKey}/requestVolunteer/${key}`);
+                                    isArrivedVolunteerShown.update({isArrivedVolunteerShown: true}).then(()=>{
+                                        console.log('update isArrivedVolunteerShown', isArrivedVolunteerShown);
+                        
+                                    }).catch(() => {
+                                        console.log(`Error in listening to isArrivedVolunteerShown. ID: ${key}`);
+                                    });
+                                    
+                                    }, 3000);
+                            }else{
+                                console.log(`Error in listening to isArrivedVolunteerShown. ID: ${key}`);                            
+                            }
+
+                            var isArrivedVolunteerShownNode = fire.database().ref(`incidents/${this.props.incidenKey}/requestVolunteer/${key}/isArrivedVolunteerShown`);
+                            isArrivedVolunteerShownNode.on('value', snapshot => {
+                                var isArrivedVolunteerShown = snapshot.val();
+                                if(isArrivedVolunteer && !isArrivedVolunteerShown){
+
+                                    var a = <div style={{fontSize:'12px'}}>
+                                        <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
+                                        <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
+                                        <p>Request Volunteer <b>{volunteer.name}</b> has arrived at the incident.</p>
+                                    </div>; 
+                        
+                                    NotificationManager.success(a,'', 20000);
+    
+                                }else{
+                                    console.log(`Error in listening to isArrivedVolunteerShown. ID: ${key}`);      
+                                }
+                            });
+                    
+                        });
+                    })
+                })
+            }
+        });
+
+
 }
 
     show = size => () => {

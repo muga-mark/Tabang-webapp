@@ -104,23 +104,7 @@ class QueueIncidents extends Component {
                 NotificationManager.success(a,'', 20000);
             }
 
-            // if(incident.isDisplayCard === false && incident.isDisplayCardShown === false){
-            //     var audio = new Audio(notificationSound);
-            //     audio.play();
-            // }
             
-            // if(incident.isDisplayCard === true && incident.isDisplayCardShown === false){
-            //     // var audio = new Audio(notificationSound);
-            //     // audio.play();
-
-            //         var a = <div style={{fontSize:'12px'}}>
-            //                     <b style={{paddingBottom:'8px'}}>NEW INCIDENT!</b> <br />
-            //                     <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
-            //                     <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
-            //                 </div>; 
-                    
-            //         NotificationManager.success(a,'', 20000);
-            // }
         });
     }
     

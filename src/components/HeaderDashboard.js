@@ -244,8 +244,11 @@ class HeaderDashboard extends Component{
       originalResponderName:'',
       originalVolunteerName:'',
       isDisplayCard: false,
-      isDisplayCardShown: false
-        
+      isDisplayCardShown: false,
+      multipleResponders:'',
+      multipleVolunteers:'',
+      requestResponders:'',
+      requestVolunteer:''
     }
     if (formValid(this.state)) {
       console.log(`
