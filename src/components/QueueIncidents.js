@@ -31,8 +31,21 @@ class QueueIncidents extends Component {
         this.props.getIncidents();
     }
 
+    computeTotalResponseTime = (date2, date1) => {
+        var res = Math.abs(date1 - date2) / 1000;
+        var days = Math.floor(res / 86400);                      
+        var hours = Math.floor(res / 3600) % 24;        
+        var minutes = Math.floor(res / 60) % 60;
+        var seconds = res % 60;
+        var time = {
+            days, hours, minutes, seconds
+        }
+        return time;
+    }
 
-    renderEmergency = () => {        
+    renderEmergency = () => {  
+        
+
         var list = [];
         _.map(this.props.incidentsList, (incident, key)=> {
             incident.key = key;
@@ -42,6 +55,8 @@ class QueueIncidents extends Component {
             return new Date(b.timeReceived) - new Date(a.timeReceived);
           });
         return _.map(list, (incident, key) => {
+        
+            
              
         if(incident.isRedundantReport === false){
             if(incident.isSettled === false){
@@ -70,11 +85,15 @@ class QueueIncidents extends Component {
                 );
             }
             }
-            if(incident.isSettled === true && incident.isShown === false){   
-                var a = <div>
-                                <p><b>Incident Location:</b> {incident.incidentLocation}</p>
-                                <p>This incident has been settled</p>
-                            </div>; 
+            if(incident.isSettled === true && incident.isShown === false){  
+                var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(incident.imeSettled), new Date(incident.timeReceived)); 
+                var a = <div style={{fontSize:'12px'}}>
+                                <b style={{paddingBottom:'8px'}}>Incident ID:</b>{incident.incidentKey} <br />
+                                <b style={{paddingBottom:'8px'}}>Incident Location:</b> {incident.incidentLocation} <br /> <br />
+                                <span style={{paddingBottom:'8px'}}>This incident has been settled</span> <br /> <br />
+                                <span>Total Response Time: <br />
+                                {days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s </span>
+                        </div>; 
             
                     NotificationManager.success(a,'', 20000);
             }
