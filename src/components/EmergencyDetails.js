@@ -132,18 +132,7 @@ class EmergencyDetails extends Component{
                     
                     }, 8000);
             }
-            // if(DisplayCard === true && DisplayCardShown === false){
-            //     var audio = new Audio(notificationSound);
-            //     audio.play();
-
-            //     var a = <div style={{fontSize:'12px'}}>
-            //                 <b style={{paddingBottom:'8px'}}>NEW INCIDENT!</b> <br />
-            //                 <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
-            //                 <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
-            //             </div>; 
-                
-            //     NotificationManager.success(a,'', 20000);
-            // }
+            
         });
 
         if(this.props.isDisplayCard === true && this.props.isDisplayCardShown === false){
@@ -151,7 +140,7 @@ class EmergencyDetails extends Component{
                 audio.play();
 
                 var a = <div style={{fontSize:'12px'}}>
-                            <b style={{paddingBottom:'8px'}}>NEW INCIDENT!</b> <br />
+                            <b style={{paddingBottom:'8px'}}>NEW INCIDENT!</b> <br /><br />
                             <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
                             <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
                         </div>; 
@@ -393,7 +382,7 @@ class EmergencyDetails extends Component{
                                 audio.play();
 
                                 setTimeout(() => {
-                                    var isRespondingResponderShown = fire.database().ref(`incidents/${this.props.incidentKey}/multipleVolunteers/${key}`);
+                                    var isRespondingResponderShown = fire.database().ref(`incidents/${this.props.incidentKey}/multipleResponders/${key}`);
                                     isRespondingResponderShown.update({isRespondingResponderShown: true}).then(()=>{
                                         console.log('update isRespondingResponderShown', isRespondingResponderShown);
                         
@@ -412,7 +401,7 @@ class EmergencyDetails extends Component{
                                     var a = <div style={{fontSize:'12px'}}>
                                         <b style={{paddingBottom:'8px'}}>Incident ID:</b>{this.props.incidentKey} <br />
                                         <b style={{paddingBottom:'8px'}}>Incident Location:</b> {this.props.incidentLocation} <br /> <br />
-                                        <p>Volunteer <b>{this.props.name}</b> has accepted this incident.</p>
+                                        <p>Another Responder: <b>{responder.name}</b> has accepted this incident.</p>
                                     </div>; 
                         
                                     NotificationManager.success(a,'', 20000);
