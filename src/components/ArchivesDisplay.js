@@ -3,6 +3,7 @@ import { Button, Table, Header, Image, Modal, Form} from 'semantic-ui-react'
 import '../stylesheet_QueueIncidents.css';
 import '../HeaderDashboard.css';
 import _ from 'lodash';
+import { runInThisContext } from 'vm';
 
 class ArchivesDispaly extends Component{
 
@@ -31,6 +32,28 @@ class ArchivesDispaly extends Component{
                     <u>  {this.props.incidentImage}  </u>
                 </pre>
                 );
+        }
+    }
+
+    displayAdditionalMobileUsers(user_type){
+        switch(user_type){
+            case 'Volunteer': 
+                            if(this.props.incidentAdditionalVolunteers === "No additional volunteers"){
+                                return <div>{this.props.incidentAdditionalVolunteers}</div>
+                            }else{
+                                console.log('volunteerarchives', this.props.incidentAdditionalVolunteers);
+                                return _.map(this.props.incidentAdditionalVolunteers, (volunteer, key) => {
+                                    console.log('volunteerarchives', volunteer);
+                                    var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(volunteer.timeArrived), new Date(volunteer.timeReceived));
+                                    return(<>
+                                        <p>ID: {key}</p>
+                                        <p>Name: {volunteer.name}</p>
+                                        <p>Time received: {volunteer.timeReceived}</p>
+                                        <p>Time arrived: {volunteer.timeArrived}</p>
+                                        <p>Response Time: {days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s</p>
+                                    </>);
+                                });
+                            }
         }
     }
 
@@ -165,6 +188,7 @@ class ArchivesDispaly extends Component{
                                             <pre style={{marginBottom:'15px', marginTop:'5px'}}>
                                                 <b>    RESPONDERS</b> {
                                                     _.map(this.props.incidentAdditionalResponders, (additionalResponder) => {
+                                                    var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(additionalResponder.timeArrived), new Date(additionalResponder.timeReceived));
                                                     return(
                                                         <div>
                                                             <div>
@@ -172,6 +196,12 @@ class ArchivesDispaly extends Component{
                                                             </div>
                                                             <div>
                                                                 <b>      Time Received : </b> <u>  {additionalResponder.timeReceived}  </u>
+                                                            </div>
+                                                            <div>
+                                                                <b>      Time Arrived : </b> <u>  {additionalResponder.timeArrived}  </u>
+                                                            </div>
+                                                            <div>
+                                                                <b>      Response Time: </b> <u>{days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s</u>
                                                             </div>
                                                         </div>
                                                     )
@@ -187,6 +217,7 @@ class ArchivesDispaly extends Component{
                                             <pre style={{marginBottom:'15px', marginTop:'5px'}}>
                                                 <b>    VOLUNTEERS</b> {
                                                     _.map(this.props.incidentAdditionalVolunteers, (additionalVolunteer) => {
+                                                        var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(additionalVolunteer.timeArrived), new Date(additionalVolunteer.timeReceived));
                                                     return(
                                                         <div>
                                                             <div>
@@ -194,6 +225,12 @@ class ArchivesDispaly extends Component{
                                                             </div>
                                                             <div>
                                                                 <b>      Time Received : </b> <u>  {additionalVolunteer.timeReceived}  </u>
+                                                            </div>
+                                                            <div>
+                                                                <b>      Time Arrived : </b> <u>  {additionalVolunteer.timeArrived}  </u>
+                                                            </div>
+                                                            <div>
+                                                                <b>      Response Time: </b> <u>{days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s</u>
                                                             </div>
                                                         </div>
                                                     )

@@ -25,16 +25,23 @@ class DispatchMobileUser extends Component{
 
         var isAccepted = fire.database().ref(`mobileUsers/Volunteer/${this.props.id}/isAccepted`);
         console.log("volunteer123", this.props.id);
-        var isACCEPTED;
+        var isACCEPTED = false;
         isAccepted.on('value', snapshot => {
-            isACCEPTED = snapshot.val();
+            
             this.setState({isAccepted: isACCEPTED});
            
             if(isACCEPTED === true){
-            this.setState({isButtonDisabled:true});
-            
-        }
+                this.setState({isButtonDisabled:true});
+            }
         });
+
+        setTimeout(()=>{
+            if(isACCEPTED === false){
+                console.log(`${this.props.firstName} ignored request`);
+            }
+        }, 10000);
+
+        
 
         var isRejected = fire.database().ref(`mobileUsers/Volunteer/${this.props.id}/isRejected`);
         var isREJECTED;

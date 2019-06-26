@@ -53,7 +53,7 @@ class Archives extends Component{
     renderAchives = () => {
         return _.map(this.state.archives, (archive, key) => {
             console.log('renderAchives', archive);
-            let feedbackLocation, incidentOriginalVolunteer, incidentImage, incidentLocation, feedbackReport;
+            let feedbackLocation, incidentOriginalVolunteer, incidentImage, incidentLocation, feedbackReport, incidentAdditionalResponders, incidentAdditionalVolunteers;
             console.log('arcive shit', archive.incidentCoordinates);
             
             if(!archive.feedbackLocation){
@@ -84,6 +84,17 @@ class Archives extends Component{
             if(!archive.image_uri || archive.image_uri === ''){
                 
             }
+            if(!incidentAdditionalResponders){
+                incidentAdditionalResponders = "No additional responders";
+            }else{
+                incidentAdditionalResponders = archive.incidentAdditionalResponders;
+            }
+            if(!incidentAdditionalVolunteers){
+                incidentAdditionalVolunteers = "No additional volunteers";
+            }else{
+                incidentAdditionalVolunteers = archive.incidentAdditionalVolunteers;
+            }
+            
             
             return(
             <ArchivesDisplay incidentKey={archive.incidentID} 
@@ -97,8 +108,8 @@ class Archives extends Component{
                                 incidentReportedBy={archive.incidentReportedBy}
                                 incidentImage={incidentImage} 
                                 report={archive.report} 
-                                incidentAdditionalResponders={archive.incidentAdditionalResponders} 
-                                incidentAdditionalVolunteers={archive.incidentAdditionalVolunteers} 
+                                incidentAdditionalResponders={incidentAdditionalResponders} 
+                                incidentAdditionalVolunteers={incidentAdditionalVolunteers} 
                                 incidentOriginalVolunteer={incidentOriginalVolunteer} 
                                 incidentType={archive.incidentType}
             />);
