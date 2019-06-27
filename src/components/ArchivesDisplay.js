@@ -37,7 +37,7 @@ class ArchivesDispaly extends Component{
 
     displayMultipleResponders = () => {
         if(this.props.incidentAdditionalResponders){
-            return _.map(this.props.incidentAdditionalResponders, (responder, key) => {
+            return _.map(this.props.incidentMultipleResponders, (responder, key) => {
                 var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(responder.timeArrived), new Date(responder.timeReceived));
                 return (<div>
                     <pre>Name: {responder.name}</pre>
@@ -54,8 +54,8 @@ class ArchivesDispaly extends Component{
     }
 
     displayMultipleVolunteers = () => {
-        if(this.props.incidentAdditionalVolunteers){
-            return _.map(this.props.incidentAdditionalVolunteers, (volunteer, key) => {
+        if(this.props.incidentMultipleVolunteers){
+            return _.map(this.props.incidentMultipleVolunteers, (volunteer, key) => {
                 var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(volunteer.timeArrived), new Date(volunteer.timeReceived));
                 return (<div>
                     <>Name: {volunteer.name}</>

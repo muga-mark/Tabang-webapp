@@ -248,7 +248,9 @@ class HeaderDashboard extends Component{
       multipleResponders:'',
       multipleVolunteers:'',
       requestResponders:'',
-      requestVolunteer:''
+      requestVolunteer:'',
+      isMultipleVolunteerDispatch: false,
+      isMultipleResponderDispatch: false
     }
     if (formValid(this.state)) {
       console.log(`

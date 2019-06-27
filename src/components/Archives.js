@@ -195,6 +195,8 @@ class Archives extends Component{
                                                     incidentAdditionalVolunteers={archive.incidentAdditionalVolunteers} 
                                                     incidentOriginalVolunteer={incidentOriginalVolunteer} 
                                                     incidentType={archive.incidentType}
+                                                    incidentMultipleVolunteers={archive.incidentMultipleVolunteers}
+                                                    incidentMultipleResponders={archive.incidentAdditionalResponders}
                                         />);
                                 })}
                             </Table.Body>

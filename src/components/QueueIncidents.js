@@ -82,6 +82,8 @@ class QueueIncidents extends Component {
                             originalVolunteerName = {incident.originalVolunteerName}
                             isDisplayCard = {incident.isDisplayCard}
                             isDisplayCardShown = {incident.isDisplayCardShown}
+                            isMultipleResponderDispatch={incident.isMultipleResponderDispatch}
+                            isMultipleVolunteerDispatch={incident.isMultipleVolunteerDispatch}
 
                         />
                     </div>
