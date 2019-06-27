@@ -112,7 +112,7 @@ class Archives extends Component{
                                 incidentOriginalVolunteer={incidentOriginalVolunteer} 
                                 incidentType={archive.incidentType}
                                 incidentMultipleResponders={archive.incidentMultipleResponders}
-                                incidentAdditionalVolunteers={archive.incidentAdditionalVolunteers}
+                                incidentMultipleVolunteers={archive.incidentMultipleVolunteers}
             />);
         });
     }
@@ -195,8 +195,8 @@ class Archives extends Component{
                                                     incidentAdditionalVolunteers={archive.incidentAdditionalVolunteers} 
                                                     incidentOriginalVolunteer={incidentOriginalVolunteer} 
                                                     incidentType={archive.incidentType}
+                                                    incidentMultipleResponders={archive.incidentMultipleResponders}
                                                     incidentMultipleVolunteers={archive.incidentMultipleVolunteers}
-                                                    incidentMultipleResponders={archive.incidentAdditionalResponders}
                                         />);
                                 })}
                             </Table.Body>

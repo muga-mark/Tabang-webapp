@@ -1175,15 +1175,15 @@ class EmergencyDetails extends Component{
                         <br></br>
                         {this.state.isMultipleResponderDispatch === true ?
                             <Card.Description extra style={{paddingBottom:'3px', paddingTop: '3px', color: 'red', borderTop:'0px solid!important', fontSize:'12px'}}>
-                                <p className='card-extra'>Multiple Responders responding to incident<Icon name='info'/></p>
+                                <p className='card-extra'><Icon name='warning circle'/>Multiple Responders responding to incident.</p>
                             </Card.Description>:null}
                         {this.state.isMultipleVolunteerDispatch === true ?
                             <Card.Description extra style={{paddingBottom:'3px', paddingTop: '3px', color: 'red', borderTop:'0px solid!important', fontSize:'12px'}}>
-                                <p className='card-extra'>Multiple Volunteers responding to incident<Icon name='info'/></p>
+                                <p className='card-extra'><Icon name='warning circle'/>Multiple Volunteers responding to incident.</p>
                             </Card.Description>:null}
                     {this.state.isRequestingVolunteers === true ?
                         <Card.Description extra style={{paddingBottom:'3px', paddingTop: '3px', color: 'red', borderTop:'0px solid!important', fontSize:'12px'}}>
-                            <p className='card-extra'>Requesting Additional Volunteer <Icon name='warning circle'/></p>
+                            <p className='card-extra'>Requesting Additional Volunteer</p>
                         </Card.Description>:null}
                     {this.state.isRequestingResponders === true ?
                         <Card.Description extra style={{paddingBottom:'3px', paddingTop: '3px', color: 'red', borderTop:'0px solid!important', fontSize:'12px'}}>
@@ -1290,6 +1290,7 @@ class EmergencyDetails extends Component{
                 <Button color='blue' onClick={this.showActiveVolunteersList('large')}>
                     {this.state.isRequestingVolunteers === true ? 'Request Additional Volunteers' : 'Request Volunteer'}
                 </Button>
+                <div></div>
                 {this.state.isRequestingResponders === true ?
                     <Button onClick={this.dispatchMultipleResponders} color='red'>
                         Dispatch {this.state.dispatchNumberOfResponders} responder/s
@@ -1352,6 +1353,7 @@ class EmergencyDetails extends Component{
                 :null}
                 </Modal.Content>
                 <Modal.Actions>
+                <div></div>
                     {this.state.isRequestingVolunteers === true ?
                         <Button onClick={this.dispatchMultipleVolunteers} color='red' floated='right'>
                             Dispatch {this.state.dispatchNumberOfVolunteers} volunteer/s

@@ -36,20 +36,26 @@ class ArchivesDispaly extends Component{
     }
 
     displayMultipleResponders = () => {
-        if(this.props.incidentAdditionalResponders){
+        if(this.props.incidentMultipleResponders){
             return _.map(this.props.incidentMultipleResponders, (responder, key) => {
                 var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(responder.timeArrived), new Date(responder.timeReceived));
-                return (<div>
-                    <pre>Name: {responder.name}</pre>
-                    <pre>Time received: {responder.timeReceived}</pre>
-                    <pre>Time arrived: {responder.timeArrived}</pre>
-                    <pre>Total Response Time: {days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s</pre>
-                </div>);
+                return (<div style={{paddingLeft:'15px'}}>
+                            <pre style={{marginBottom:'0px', marginTop:'10px', fontSize:'1em', fontFamily:'monospace,monospace'}}>
+                                    <b>Name</b>         : {responder.name}</pre>
+                            <pre style={{marginBottom:'0px', marginTop:'0px', fontSize:'1em', fontFamily:'monospace,monospace'}}>
+                                    <b>Time received</b> : {responder.timeReceived}</pre>
+                            <pre style={{marginBottom:'0px', marginTop:'0px', fontSize:'1em', fontFamily:'monospace,monospace'}}>
+                                    <b>Time arrived</b>  : {responder.timeArrived}</pre>
+                            <pre style={{marginBottom:'0px', marginTop:'0px', fontSize:'1em', fontFamily:'monospace,monospace'}}>
+                                    <b>Total Response Time</b> : {days} day/s: {hours} hour/s: 
+                                    <br/><span style={{paddingLeft:'184px'}}>{minutes} minute/s: {seconds} second/s</span></pre>
+                        </div>
+                );
             })
         }else{
-            return <div>
-                No other responders
-            </div>
+            return <pre style={{marginBottom:'5px', fontSize:'1em', fontFamily:'monospace,monospace', marginTop:'-13px', paddingLeft:'20px'}}>
+                       <br/>No other responders
+            </pre>
         }
     }
 
@@ -57,17 +63,23 @@ class ArchivesDispaly extends Component{
         if(this.props.incidentMultipleVolunteers){
             return _.map(this.props.incidentMultipleVolunteers, (volunteer, key) => {
                 var {days, hours, minutes, seconds} = this.computeTotalResponseTime(new Date(volunteer.timeArrived), new Date(volunteer.timeReceived));
-                return (<div>
-                    <>Name: {volunteer.name}</>
-                    <>Time received: {volunteer.timeReceived}</>
-                    <>Time arrived: {volunteer.timeArrived}</>
-                    <>Total Response Time: {days} day/s: {hours} hour/s: {minutes} minute/s: {seconds} second/s</>
-                </div>);
+                return (<div style={{paddingLeft:'15px'}}>
+                            <pre style={{marginBottom:'0px', marginTop:'10px', fontSize:'1em', fontFamily:'monospace,monospace'}}>
+                                    Name: {volunteer.name}</pre>
+                            <pre style={{marginBottom:'0px', marginTop:'0px', fontSize:'1em', fontFamily:'monospace,monospace'}}>
+                                    Time received: {volunteer.timeReceived}</pre>
+                            <pre style={{marginBottom:'0px', marginTop:'0px', fontSize:'1em', fontFamily:'monospace,monospace'}}>
+                                    Time arrived: {volunteer.timeArrived}</pre>
+                            <pre style={{marginBottom:'0px', marginTop:'0px', fontSize:'1em', fontFamily:'monospace,monospace'}}>
+                                    Total Response Time: {days} day/s: {hours} hour/s: 
+                                    <br/><span style={{paddingLeft:'184px'}}>{minutes} minute/s: {seconds} second/s</span></pre>
+                        </div>
+                );
             })
         }else{
-            return <div>
-                No other volunteers
-            </div>
+            return <pre style={{marginBottom:'5px', fontSize:'1em', fontFamily:'monospace,monospace', marginTop:'-13px', paddingLeft:'20px'}}>
+                    <br/>   No other volunteers
+            </pre>
         }
     }
 
@@ -123,18 +135,20 @@ class ArchivesDispaly extends Component{
                                                 <pre style={{marginBottom:'0px', marginTop:'-13px'}}>
                                                     <b>RESPONDED BY : </b> 
                                                     <u>  {this.props.feedbackByResponder}  </u>
-                                                    <br/>
-                                                    <b>OTHER RESPONDERS : </b>
-                                                    <>{this.displayMultipleResponders()}</>
+                                                </pre>
+                                                <pre style={{marginBottom:'0px', marginTop:'0px'}}>
+                                                    <b>OTHER RESPONDERS : </b> <br/>
+                                                    {this.displayMultipleResponders()}
                                                 </pre>
                                             </Form.Field>
                                             <Form.Field>
                                                 <pre style={{marginBottom:'0px', marginTop:'-13px'}}>
                                                     <b>VOLUNTEERED BY : </b> 
                                                     <u>  {this.props.incidentOriginalVolunteer}  </u>
-                                                    <br/>
-                                                    <b>OTHER VOLUNTEERS : </b> 
-                                                    <>  {this.displayMultipleVolunteers()}  </>
+                                                </pre>
+                                                <pre style={{marginBottom:'0px', marginTop:'0px'}}>
+                                                    <b>OTHER VOLUNTEERS : </b> <br/>
+                                                    {this.displayMultipleVolunteers()}
                                                 </pre>
                                             </Form.Field>
                                         </Form.Group>
