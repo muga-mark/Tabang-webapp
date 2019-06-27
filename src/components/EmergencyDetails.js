@@ -1044,6 +1044,7 @@ class EmergencyDetails extends Component{
                     console.log('asdfasr', nearestUsers);
                 }
             });
+            nearestUsers.sort( function ( a, b ) { return b.points - a.points; } );
             this.setState({bestVolunteers: nearestUsers}, () => {
                 console.log('fuck you', this.state.bestVolunteers);
             });
@@ -1104,7 +1105,8 @@ class EmergencyDetails extends Component{
                 console.log('volunteer uid', volunteerWithCredentials);
             });
         });
-        volunteerWithCredentials.sort((a,b) => (a.points > b.points) ? 1: (a.points === b.points) ?  1 : -1); // sort volunteers
+        volunteerWithCredentials.sort( function ( a, b ) { return b.points - a.points; } );
+        //volunteerWithCredentials.sort((a,b) => (a.points < b.points) ? 1: (a.points === b.points) ?  1 : -1); // sort volunteers
         this.setState({volunteerWithCredentials: volunteerWithCredentials}, () => {
             console.log('sorted setstate', this.state.volunteerWithCredentials);
         })
